@@ -1,0 +1,301 @@
+// ─── 13 CONFIRMED ROSTERS (from draft lottery sheet, slot order) ─────────────
+// Each slot: 3 national teams + 3 offensive players
+// Draft spot = original snake draft position
+
+export const ROSTERS = [
+  {
+    slot: 1,
+    draftSpot: 5,
+    teams: [
+      { id: "POR", name: "Portugal",     flag: "🇵🇹", group: "K" },
+      { id: "JPN", name: "Japan",        flag: "🇯🇵", group: "F" },
+      { id: "GHA", name: "Ghana",        flag: "🇬🇭", group: "L" },
+    ],
+    players: [
+      { id: "messi",    name: "Lionel Messi",      flag: "🇦🇷", team: "Argentina", pos: "MID" },
+      { id: "doku",     name: "Jérémy Doku",       flag: "🇧🇪", team: "Belgium",   pos: "MID" },
+      { id: "davies",   name: "Alphonso Davies",   flag: "🇨🇦", team: "Canada",    pos: "MID" },
+    ],
+  },
+  {
+    slot: 2,
+    draftSpot: 11,
+    teams: [
+      { id: "COL", name: "Colombia",    flag: "🇨🇴", group: "K" },
+      { id: "CIV", name: "Ivory Coast", flag: "🇨🇮", group: "E" },
+      { id: "RSA", name: "South Africa",flag: "🇿🇦", group: "A" },
+    ],
+    players: [
+      { id: "haaland",  name: "Erling Haaland",      flag: "🇳🇴", team: "Norway",    pos: "FWD" },
+      { id: "lautaro",  name: "Lautaro Martínez",    flag: "🇦🇷", team: "Argentina", pos: "FWD" },
+      { id: "ferran",   name: "Ferran Torres",       flag: "🇪🇸", team: "Spain",     pos: "FWD" },
+    ],
+  },
+  {
+    slot: 3,
+    draftSpot: 1,
+    teams: [
+      { id: "ESP", name: "Spain",         flag: "🇪🇸", group: "H" },
+      { id: "USA", name: "United States", flag: "🇺🇸", group: "D" },
+      { id: "SCO", name: "Scotland",      flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", group: "C" },
+    ],
+    players: [
+      { id: "pedri",     name: "Pedri",          flag: "🇪🇸", team: "Spain",  pos: "MID" },
+      { id: "doue",      name: "Désiré Doué",    flag: "🇫🇷", team: "France", pos: "MID" },
+      { id: "coman",     name: "Kingsley Coman", flag: "🇫🇷", team: "France", pos: "MID" },
+    ],
+  },
+  {
+    slot: 4,
+    draftSpot: 6,
+    teams: [
+      { id: "BRA", name: "Brazil",  flag: "🇧🇷", group: "C" },
+      { id: "AUT", name: "Austria", flag: "🇦🇹", group: "J" },
+      { id: "QAT", name: "Qatar",   flag: "🇶🇦", group: "B" },
+    ],
+    players: [
+      { id: "saka",   name: "Bukayo Saka",    flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England", pos: "MID" },
+      { id: "cherki", name: "Rayan Cherki",   flag: "🇫🇷", team: "France",  pos: "MID" },
+      { id: "cucho",  name: "Cucho Hernández",flag: "🇨🇴", team: "Colombia",pos: "FWD" },
+    ],
+  },
+  {
+    slot: 5,
+    draftSpot: 10,
+    teams: [
+      { id: "URU", name: "Uruguay",  flag: "🇺🇾", group: "H" },
+      { id: "TUR", name: "Türkiye",  flag: "🇹🇷", group: "D" },
+      { id: "PAR", name: "Paraguay", flag: "🇵🇾", group: "D" },
+    ],
+    players: [
+      { id: "yamal",    name: "Lamine Yamal",   flag: "🇪🇸", team: "Spain",  pos: "MID" },
+      { id: "odegaard", name: "Martin Ødegaard",flag: "🇳🇴", team: "Norway", pos: "MID" },
+      { id: "balogun",  name: "Folarin Balogun", flag: "🇺🇸", team: "USA",   pos: "FWD" },
+    ],
+  },
+  {
+    slot: 6,
+    draftSpot: 4,
+    teams: [
+      { id: "ENG", name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "L" },
+      { id: "SEN", name: "Senegal", flag: "🇸🇳", group: "I" },
+      { id: "SWE", name: "Sweden",  flag: "🇸🇪", group: "F" },
+    ],
+    players: [
+      { id: "ronaldo", name: "Cristiano Ronaldo", flag: "🇵🇹", team: "Portugal", pos: "FWD" },
+      { id: "barcola", name: "Bradley Barcola",   flag: "🇫🇷", team: "France",   pos: "MID" },
+      { id: "lerma",   name: "Jefferson Lerma",   flag: "🇨🇴", team: "Colombia", pos: "MID" },
+    ],
+  },
+  {
+    slot: 7,
+    draftSpot: 9,
+    teams: [
+      { id: "BEL", name: "Belgium",     flag: "🇧🇪", group: "G" },
+      { id: "KOR", name: "South Korea", flag: "🇰🇷", group: "A" },
+      { id: "PAN", name: "Panama",      flag: "🇵🇦", group: "L" },
+    ],
+    players: [
+      { id: "oyarzabal", name: "Mikel Oyarzabal", flag: "🇪🇸", team: "Spain",       pos: "FWD" },
+      { id: "gakpo",     name: "Cody Gakpo",      flag: "🇳🇱", team: "Netherlands", pos: "FWD" },
+      { id: "havertz",   name: "Kai Havertz",     flag: "🇩🇪", team: "Germany",     pos: "FWD" },
+    ],
+  },
+  {
+    slot: 8,
+    draftSpot: 12,
+    teams: [
+      { id: "NOR", name: "Norway",           flag: "🇳🇴", group: "I" },
+      { id: "ALG", name: "Algeria",          flag: "🇩🇿", group: "J" },
+      { id: "BIH", name: "Bosnia & Herz.",   flag: "🇧🇦", group: "B" },
+    ],
+    players: [
+      { id: "kane",    name: "Harry Kane",  flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",  pos: "FWD" },
+      { id: "luisdiaz",name: "Luis Díaz",   flag: "🇨🇴", team: "Colombia", pos: "MID" },
+      { id: "endrick", name: "Endrick",     flag: "🇧🇷", team: "Brazil",   pos: "FWD" },
+    ],
+  },
+  {
+    slot: 9,
+    draftSpot: 3,
+    teams: [
+      { id: "ARG", name: "Argentina", flag: "🇦🇷", group: "J" },
+      { id: "MAR", name: "Morocco",   flag: "🇲🇦", group: "C" },
+      { id: "CAN", name: "Canada",    flag: "🇨🇦", group: "B" },
+    ],
+    players: [
+      { id: "raphinha", name: "Raphinha",        flag: "🇧🇷", team: "Brazil",  pos: "MID" },
+      { id: "semenyo",  name: "Antoine Semenyo", flag: "🇬🇭", team: "Ghana",   pos: "MID" },
+      { id: "abde",     name: "Abde Ezzalzouli", flag: "🇲🇦", team: "Morocco", pos: "MID" },
+    ],
+  },
+  {
+    slot: 10,
+    draftSpot: 8,
+    teams: [
+      { id: "NED", name: "Netherlands", flag: "🇳🇱", group: "F" },
+      { id: "ECU", name: "Ecuador",     flag: "🇪🇨", group: "E" },
+      { id: "AUS", name: "Australia",   flag: "🇦🇺", group: "D" },
+    ],
+    players: [
+      { id: "vinicius",  name: "Vinícius Júnior",  flag: "🇧🇷", team: "Brazil",  pos: "FWD" },
+      { id: "olise",     name: "Michael Olise",    flag: "🇫🇷", team: "France",  pos: "MID" },
+      { id: "valverde",  name: "Federico Valverde",flag: "🇺🇾", team: "Uruguay", pos: "MID" },
+    ],
+  },
+  {
+    slot: 11,
+    draftSpot: 7,
+    teams: [
+      { id: "GER", name: "Germany",     flag: "🇩🇪", group: "E" },
+      { id: "SUI", name: "Switzerland", flag: "🇨🇭", group: "B" },
+      { id: "DRC", name: "DR Congo",    flag: "🇨🇩", group: "K" },
+    ],
+    players: [
+      { id: "bellingham", name: "Jude Bellingham", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",   pos: "MID" },
+      { id: "alvarez",    name: "Julián Álvarez",  flag: "🇦🇷", team: "Argentina", pos: "FWD" },
+      { id: "rashford",   name: "Marcus Rashford", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",   pos: "FWD" },
+    ],
+  },
+  {
+    slot: 12,
+    draftSpot: 13,
+    teams: [
+      { id: "CRO", name: "Croatia",     flag: "🇭🇷", group: "L" },
+      { id: "IRN", name: "Iran",        flag: "🇮🇷", group: "G" },
+      { id: "NZL", name: "New Zealand", flag: "🇳🇿", group: "G" },
+    ],
+    players: [
+      { id: "mbappe",  name: "Kylian Mbappé", flag: "🇫🇷", team: "France", pos: "FWD" },
+      { id: "neymar",  name: "Neymar Jr.",    flag: "🇧🇷", team: "Brazil", pos: "FWD" },
+      { id: "eze",     name: "Eberechi Eze",  flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",pos: "MID" },
+    ],
+  },
+  {
+    slot: 13,
+    draftSpot: 2,
+    teams: [
+      { id: "FRA", name: "France", flag: "🇫🇷", group: "I" },
+      { id: "MEX", name: "Mexico", flag: "🇲🇽", group: "A" },
+      { id: "EGY", name: "Egypt",  flag: "🇪🇬", group: "G" },
+    ],
+    players: [
+      { id: "wirtz",   name: "Florian Wirtz",    flag: "🇩🇪", team: "Germany",       pos: "MID" },
+      { id: "pulisic", name: "Christian Pulisic", flag: "🇺🇸", team: "United States", pos: "MID" },
+      { id: "mane",    name: "Sadio Mané",        flag: "🇸🇳", team: "Senegal",       pos: "FWD" },
+    ],
+  },
+];
+
+// All 48 WC teams for results entry
+export const ALL_TEAMS = [
+  { id:"FRA",name:"France",flag:"🇫🇷",group:"I"},{ id:"ESP",name:"Spain",flag:"🇪🇸",group:"H"},
+  { id:"ARG",name:"Argentina",flag:"🇦🇷",group:"J"},{ id:"ENG",name:"England",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",group:"L"},
+  { id:"POR",name:"Portugal",flag:"🇵🇹",group:"K"},{ id:"BRA",name:"Brazil",flag:"🇧🇷",group:"C"},
+  { id:"NED",name:"Netherlands",flag:"🇳🇱",group:"F"},{ id:"MAR",name:"Morocco",flag:"🇲🇦",group:"C"},
+  { id:"BEL",name:"Belgium",flag:"🇧🇪",group:"G"},{ id:"GER",name:"Germany",flag:"🇩🇪",group:"E"},
+  { id:"CRO",name:"Croatia",flag:"🇭🇷",group:"L"},{ id:"COL",name:"Colombia",flag:"🇨🇴",group:"K"},
+  { id:"SEN",name:"Senegal",flag:"🇸🇳",group:"I"},{ id:"MEX",name:"Mexico",flag:"🇲🇽",group:"A"},
+  { id:"USA",name:"United States",flag:"🇺🇸",group:"D"},{ id:"URU",name:"Uruguay",flag:"🇺🇾",group:"H"},
+  { id:"JPN",name:"Japan",flag:"🇯🇵",group:"F"},{ id:"SUI",name:"Switzerland",flag:"🇨🇭",group:"B"},
+  { id:"IRN",name:"Iran",flag:"🇮🇷",group:"G"},{ id:"AUT",name:"Austria",flag:"🇦🇹",group:"J"},
+  { id:"ECU",name:"Ecuador",flag:"🇪🇨",group:"E"},{ id:"KOR",name:"South Korea",flag:"🇰🇷",group:"A"},
+  { id:"AUS",name:"Australia",flag:"🇦🇺",group:"D"},{ id:"EGY",name:"Egypt",flag:"🇪🇬",group:"G"},
+  { id:"CAN",name:"Canada",flag:"🇨🇦",group:"B"},{ id:"CIV",name:"Ivory Coast",flag:"🇨🇮",group:"E"},
+  { id:"QAT",name:"Qatar",flag:"🇶🇦",group:"B"},{ id:"ALG",name:"Algeria",flag:"🇩🇿",group:"J"},
+  { id:"SWE",name:"Sweden",flag:"🇸🇪",group:"F"},{ id:"TUN",name:"Tunisia",flag:"🇹🇳",group:"F"},
+  { id:"CZE",name:"Czechia",flag:"🇨🇿",group:"A"},{ id:"TUR",name:"Türkiye",flag:"🇹🇷",group:"D"},
+  { id:"NOR",name:"Norway",flag:"🇳🇴",group:"I"},{ id:"SCO",name:"Scotland",flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",group:"C"},
+  { id:"DRC",name:"DR Congo",flag:"🇨🇩",group:"K"},{ id:"BIH",name:"Bosnia & Herz.",flag:"🇧🇦",group:"B"},
+  { id:"PAN",name:"Panama",flag:"🇵🇦",group:"L"},{ id:"KSA",name:"Saudi Arabia",flag:"🇸🇦",group:"H"},
+  { id:"RSA",name:"South Africa",flag:"🇿🇦",group:"A"},{ id:"IRQ",name:"Iraq",flag:"🇮🇶",group:"I"},
+  { id:"GHA",name:"Ghana",flag:"🇬🇭",group:"L"},{ id:"PAR",name:"Paraguay",flag:"🇵🇾",group:"D"},
+  { id:"NZL",name:"New Zealand",flag:"🇳🇿",group:"G"},{ id:"JOR",name:"Jordan",flag:"🇯🇴",group:"J"},
+  { id:"HTI",name:"Haiti",flag:"🇭🇹",group:"C"},{ id:"CPV",name:"Cabo Verde",flag:"🇨🇻",group:"H"},
+  { id:"UZB",name:"Uzbekistan",flag:"🇺🇿",group:"K"},{ id:"CUW",name:"Curaçao",flag:"🇨🇼",group:"E"},
+];
+
+// Full 72-match group stage schedule
+export const GROUP_STAGE = [
+  {id:"g1",group:"A",home:"MEX",away:"RSA",date:"Jun 11",time:"3pm ET"},
+  {id:"g2",group:"A",home:"KOR",away:"CZE",date:"Jun 11",time:"10pm ET"},
+  {id:"g3",group:"B",home:"CAN",away:"BIH",date:"Jun 12",time:"3pm ET"},
+  {id:"g4",group:"D",home:"USA",away:"PAR",date:"Jun 12",time:"9pm ET"},
+  {id:"g5",group:"B",home:"QAT",away:"SUI",date:"Jun 13",time:"3pm ET"},
+  {id:"g6",group:"C",home:"BRA",away:"MAR",date:"Jun 13",time:"6pm ET"},
+  {id:"g7",group:"C",home:"HTI",away:"SCO",date:"Jun 13",time:"9pm ET"},
+  {id:"g8",group:"D",home:"AUS",away:"TUR",date:"Jun 14",time:"12am ET"},
+  {id:"g9",group:"E",home:"GER",away:"CUW",date:"Jun 14",time:"1pm ET"},
+  {id:"g10",group:"F",home:"NED",away:"JPN",date:"Jun 14",time:"4pm ET"},
+  {id:"g11",group:"E",home:"CIV",away:"ECU",date:"Jun 14",time:"7pm ET"},
+  {id:"g12",group:"F",home:"SWE",away:"TUN",date:"Jun 14",time:"10pm ET"},
+  {id:"g13",group:"H",home:"ESP",away:"CPV",date:"Jun 15",time:"12pm ET"},
+  {id:"g14",group:"G",home:"BEL",away:"EGY",date:"Jun 15",time:"3pm ET"},
+  {id:"g15",group:"H",home:"KSA",away:"URU",date:"Jun 15",time:"6pm ET"},
+  {id:"g16",group:"G",home:"IRN",away:"NZL",date:"Jun 15",time:"9pm ET"},
+  {id:"g17",group:"I",home:"FRA",away:"SEN",date:"Jun 16",time:"3pm ET"},
+  {id:"g18",group:"I",home:"IRQ",away:"NOR",date:"Jun 16",time:"6pm ET"},
+  {id:"g19",group:"J",home:"ARG",away:"ALG",date:"Jun 16",time:"9pm ET"},
+  {id:"g20",group:"J",home:"AUT",away:"JOR",date:"Jun 17",time:"12am ET"},
+  {id:"g21",group:"K",home:"POR",away:"DRC",date:"Jun 17",time:"1pm ET"},
+  {id:"g22",group:"L",home:"ENG",away:"CRO",date:"Jun 17",time:"4pm ET"},
+  {id:"g23",group:"L",home:"GHA",away:"PAN",date:"Jun 17",time:"7pm ET"},
+  {id:"g24",group:"K",home:"UZB",away:"COL",date:"Jun 17",time:"10pm ET"},
+  {id:"g25",group:"A",home:"CZE",away:"RSA",date:"Jun 18",time:"12pm ET"},
+  {id:"g26",group:"B",home:"SUI",away:"BIH",date:"Jun 18",time:"3pm ET"},
+  {id:"g27",group:"B",home:"CAN",away:"QAT",date:"Jun 18",time:"6pm ET"},
+  {id:"g28",group:"A",home:"MEX",away:"KOR",date:"Jun 18",time:"9pm ET"},
+  {id:"g29",group:"D",home:"TUR",away:"PAR",date:"Jun 19",time:"12am ET"},
+  {id:"g30",group:"D",home:"USA",away:"AUS",date:"Jun 19",time:"3pm ET"},
+  {id:"g31",group:"C",home:"SCO",away:"MAR",date:"Jun 19",time:"6pm ET"},
+  {id:"g32",group:"C",home:"BRA",away:"HTI",date:"Jun 19",time:"8:30pm ET"},
+  {id:"g33",group:"F",home:"NED",away:"SWE",date:"Jun 20",time:"1pm ET"},
+  {id:"g34",group:"E",home:"GER",away:"CIV",date:"Jun 20",time:"4pm ET"},
+  {id:"g35",group:"E",home:"ECU",away:"CUW",date:"Jun 20",time:"8pm ET"},
+  {id:"g36",group:"F",home:"TUN",away:"JPN",date:"Jun 21",time:"12am ET"},
+  {id:"g37",group:"H",home:"ESP",away:"KSA",date:"Jun 21",time:"12pm ET"},
+  {id:"g38",group:"G",home:"BEL",away:"IRN",date:"Jun 21",time:"3pm ET"},
+  {id:"g39",group:"H",home:"URU",away:"CPV",date:"Jun 21",time:"6pm ET"},
+  {id:"g40",group:"G",home:"NZL",away:"EGY",date:"Jun 21",time:"9pm ET"},
+  {id:"g41",group:"J",home:"ARG",away:"AUT",date:"Jun 22",time:"1pm ET"},
+  {id:"g42",group:"I",home:"FRA",away:"IRQ",date:"Jun 22",time:"5pm ET"},
+  {id:"g43",group:"I",home:"NOR",away:"SEN",date:"Jun 22",time:"8pm ET"},
+  {id:"g44",group:"J",home:"JOR",away:"ALG",date:"Jun 22",time:"11pm ET"},
+  {id:"g45",group:"K",home:"POR",away:"UZB",date:"Jun 23",time:"1pm ET"},
+  {id:"g46",group:"L",home:"ENG",away:"GHA",date:"Jun 23",time:"4pm ET"},
+  {id:"g47",group:"L",home:"PAN",away:"CRO",date:"Jun 23",time:"7pm ET"},
+  {id:"g48",group:"K",home:"COL",away:"DRC",date:"Jun 23",time:"10pm ET"},
+  {id:"g49",group:"B",home:"SUI",away:"CAN",date:"Jun 24",time:"3pm ET"},
+  {id:"g50",group:"B",home:"BIH",away:"QAT",date:"Jun 24",time:"3pm ET"},
+  {id:"g51",group:"C",home:"SCO",away:"BRA",date:"Jun 24",time:"6pm ET"},
+  {id:"g52",group:"C",home:"MAR",away:"HTI",date:"Jun 24",time:"6pm ET"},
+  {id:"g53",group:"A",home:"CZE",away:"MEX",date:"Jun 24",time:"9pm ET"},
+  {id:"g54",group:"A",home:"RSA",away:"KOR",date:"Jun 24",time:"9pm ET"},
+  {id:"g55",group:"E",home:"CUW",away:"CIV",date:"Jun 25",time:"4pm ET"},
+  {id:"g56",group:"E",home:"ECU",away:"GER",date:"Jun 25",time:"4pm ET"},
+  {id:"g57",group:"F",home:"JPN",away:"SWE",date:"Jun 25",time:"7pm ET"},
+  {id:"g58",group:"F",home:"TUN",away:"NED",date:"Jun 25",time:"7pm ET"},
+  {id:"g59",group:"D",home:"TUR",away:"USA",date:"Jun 25",time:"10pm ET"},
+  {id:"g60",group:"D",home:"PAR",away:"AUS",date:"Jun 25",time:"10pm ET"},
+  {id:"g61",group:"I",home:"NOR",away:"FRA",date:"Jun 26",time:"3pm ET"},
+  {id:"g62",group:"I",home:"SEN",away:"IRQ",date:"Jun 26",time:"3pm ET"},
+  {id:"g63",group:"H",home:"CPV",away:"KSA",date:"Jun 26",time:"8pm ET"},
+  {id:"g64",group:"H",home:"URU",away:"ESP",date:"Jun 26",time:"8pm ET"},
+  {id:"g65",group:"G",home:"EGY",away:"IRN",date:"Jun 26",time:"11pm ET"},
+  {id:"g66",group:"G",home:"NZL",away:"BEL",date:"Jun 26",time:"11pm ET"},
+  {id:"g67",group:"L",home:"PAN",away:"ENG",date:"Jun 27",time:"5pm ET"},
+  {id:"g68",group:"L",home:"CRO",away:"GHA",date:"Jun 27",time:"5pm ET"},
+  {id:"g69",group:"K",home:"COL",away:"POR",date:"Jun 27",time:"7:30pm ET"},
+  {id:"g70",group:"K",home:"DRC",away:"UZB",date:"Jun 27",time:"7:30pm ET"},
+  {id:"g71",group:"J",home:"ALG",away:"AUT",date:"Jun 27",time:"10pm ET"},
+  {id:"g72",group:"J",home:"JOR",away:"ARG",date:"Jun 27",time:"10pm ET"},
+];
+
+// Scoring rules
+export const SCORING = {
+  team:   { win: 3, draw: 1, ro16: 1, qf: 1, sf: 2, champion: 3 },
+  player: { goal: 5, assist: 3, cleanSheet: 3 },
+};
+
+// Admin password — change this before deploying
+export const ADMIN_PASSWORD = "wc26admin";
