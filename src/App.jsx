@@ -4,7 +4,7 @@ import { calcTeamPoints, calcPlayerPoints, calcRosterPoints } from './utils/scor
 import { db } from './firebase.js';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { runApiUpdate } from './api.js';
-import { MatchDayLogger } from './MatchDayLogger.jsx';
+//import { MatchDayLogger } from './MatchDayLogger.jsx';
 
 // ─── FIRESTORE HELPERS ────────────────────────────────────────────────────────
 const DOCS = {
@@ -399,7 +399,7 @@ return () => {
     { id: 'rosters',   l: 'Rosters',   ic: '🗂️' },
     { id: 'results',   l: 'Results',   ic: '⚽' },
     { id: 'scoring',   l: 'Scoring',   ic: '📋' },
-    { id: 'logger', l: 'Logger', ic: '📝' },
+  
   ];
 
   return (
@@ -494,13 +494,13 @@ return () => {
             />
           )}
           {tab === 'scoring' && <ScoringTab />}
-          {tab === 'logger' && (
+          {/*tab === 'logger' && (
   <MatchDayLogger
     state={state}
     isAdmin={isAdmin}
     persist={persist}
   />
-)}
+)}*/}
         </div>
 
         {/* ── Mobile nav ── */}
