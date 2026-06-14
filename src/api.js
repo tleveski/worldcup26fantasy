@@ -73,14 +73,8 @@ const TEAM_NAME_MAP = {
 
 // ── Fetch helper ──────────────────────────────────────────────────────────────
 async function apiFetch(endpoint) {
-  if (!API_KEY) {
-    console.error('[API] VITE_API_FOOTBALL_KEY not set');
-    return null;
-  }
   try {
-    const res  = await fetch(`${BASE_URL}${endpoint}`, {
-      headers: { 'x-apisports-key': API_KEY },
-    });
+    const res  = await fetch(`/.netlify/functions/api-football?endpoint=${encodeURIComponent(endpoint)}`);
     const data = await res.json();
     if (data.errors && Object.keys(data.errors).length > 0) {
       console.error('[API] Error:', data.errors);
