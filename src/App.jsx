@@ -3,7 +3,6 @@ import { ROSTERS, ALL_TEAMS, GROUP_STAGE, SCORING, ADMIN_PASSWORD } from './data
 import { calcTeamPoints, calcPlayerPoints, calcRosterPoints } from './utils/scoring.js';
 import { db } from './firebase.js';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
-import { runApiUpdate } from './api.js';
 import { MatchDayLogger } from './MatchDayLogger.jsx';
 
 // ─── FIRESTORE HELPERS ────────────────────────────────────────────────────────
@@ -262,9 +261,7 @@ export default function App() {
   const [mSearch,    setMSearch]    = useState('');
   const [pSearch,    setPSearch]    = useState('');
   const [saveStatus, setSaveStatus] = useState('');
-  const [apiStatus,  setApiStatus]  = useState('');
-  const [apiDate,    setApiDate]    = useState(new Date().toISOString().split('T')[0]);
-  const [apiLoading, setApiLoading] = useState(false);
+
 
   // Load from Firestore on mount + subscribe to real-time updates
   useEffect(() => {
@@ -289,25 +286,7 @@ export default function App() {
   }, []);
 
   // ── API Update handler ─────────────────────────────────────────────────────
-  async function handleApiUpdate() {
-    setApiLoading(true);
-    setApiStatus('');
-    try {
-      const result = await runApiUpdate(apiDate);
-      if (result.updated > 0) {
-        // Reload state from Firestore to reflect new data
-        const fresh = await loadState();
-        setState(fresh);
-        setApiStatus(`✅ ${result.message}`);
-      } else {
-        setApiStatus(`ℹ️ ${result.message}`);
-      }
-    } catch (err) {
-      console.error('[API] Update failed:', err);
-      setApiStatus(`❌ Update failed: ${err.message}`);
-    }
-    setApiLoading(false);
-  }
+
 
   // ── Computed ───────────────────────────────────────────────────────────────
   const sorted = [...ROSTERS].sort((a, b) =>
@@ -412,37 +391,7 @@ export default function App() {
         {/* ── Pages ── */}
         <div className="page">
 
-          {/* ── Admin API Panel (shown on all tabs when admin) ── */}
-          {isAdmin && (
-            <div className="api-panel">
-              <div className="api-panel-ttl">⚡ API-Football Auto-Update</div>
-              <p style={{ fontSize: 12, color: S.muted, marginBottom: 12 }}>
-                Pull today's completed World Cup matches and automatically update scores and player stats.
-              </p>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                <input
-                  type="date"
-                  className="inp"
-                  style={{ width: 160 }}
-                  value={apiDate}
-                  onChange={e => setApiDate(e.target.value)}
-                />
-                <button
-                  className="btn btn-gold"
-                  onClick={handleApiUpdate}
-                  disabled={apiLoading}
-                >
-                  {apiLoading ? '⏳ Fetching…' : '🔄 Fetch & Update'}
-                </button>
-              </div>
-              {apiStatus && (
-                <div style={{ marginTop: 10, fontSize: 13,
-                  color: apiStatus.startsWith('✅') ? S.green : apiStatus.startsWith('❌') ? S.red : S.gold }}>
-                  {apiStatus}
-                </div>
-              )}
-            </div>
-          )}
+         
 
           {tab === 'standings' && (
             <StandingsTab
