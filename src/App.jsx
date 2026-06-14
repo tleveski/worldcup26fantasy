@@ -2,14 +2,55 @@ import { useState, useEffect, useCallback } from 'react';
 import { ROSTERS, ALL_TEAMS, GROUP_STAGE, SCORING, ADMIN_PASSWORD } from './data/rosters.js';
 import { calcTeamPoints, calcPlayerPoints, calcRosterPoints } from './utils/scoring.js';
 import { db } from './firebase.js';
+import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { runApiUpdate } from './api.js';
+
+// ─── FIRESTORE HELPERS ────────────────────────────────────────────────────────
+const DOCS = {
+  meta:   () => doc(db, 'league', 'meta'),
+  scores: () => doc(db, 'league', 'scores'),
+  adv:    () => doc(db, 'league', 'adv'),
+  pstats: () => doc(db, 'league', 'pstats'),
+};
+
+async function loadState() {
+  const [meta, scores, adv, pstats] = await Promise.all([
+    getDoc(DOCS.meta()),
+    getDoc(DOCS.scores()),
+    getDoc(DOCS.adv()),
+    getDoc(DOCS.pstats()),
+  ]);
+  const init = buildInitialState();
+  return {
+    teamNames:    meta.exists()   ? meta.data()   : init.teamNames,
+    matches:      scores.exists() ? mergeMatches(init.matches, scores.data()) : init.matches,
+    advancements: adv.exists()    ? adv.data()    : {},
+    playerStats:  pstats.exists() ? pstats.data() : {},
+  };
+}
+
+function mergeMatches(initial, saved) {
+  return initial.map(m => saved[m.id] ? { ...m, ...saved[m.id] } : m);
+}
+
+async function saveState(newState) {
+  const matchMap = {};
+  newState.matches.forEach(m => { matchMap[m.id] = { homeScore: m.homeScore, awayScore: m.awayScore, played: m.played }; });
+  await Promise.all([
+    setDoc(DOCS.meta(),   newState.teamNames),
+    setDoc(DOCS.scores(), matchMap),
+    setDoc(DOCS.adv(),    newState.advancements),
+    setDoc(DOCS.pstats(), newState.playerStats),
+  ]);
+}
 
 // ─── INITIAL STATE ────────────────────────────────────────────────────────────
 function buildInitialState() {
   return {
     teamNames:    Object.fromEntries(ROSTERS.map(r => [r.slot, `Slot ${r.slot}`])),
     matches:      GROUP_STAGE.map(m => ({ ...m, homeId: m.home, awayId: m.away, homeScore: 0, awayScore: 0, played: false })),
-    advancements: {},  // { teamId: { ro16, qf, sf, champion } }
-    playerStats:  {},  // { playerId: { goals, assists, cleanSheets } }
+    advancements: {},
+    playerStats:  {},
   };
 }
 
@@ -55,6 +96,8 @@ const css = `
   .btn-g:hover { border-color:${S.accent}; color:${S.accent}; }
   .btn-r { background:none; color:${S.red}; border:1px solid ${S.red}; }
   .btn-r:hover { background:rgba(244,63,94,.1); }
+  .btn-gold { background:none; color:${S.gold}; border:1px solid ${S.gold}; }
+  .btn-gold:hover { background:rgba(245,196,0,.1); }
   .btn-sm { padding:5px 11px; font-size:12px; }
 
   /* Inputs */
@@ -137,6 +180,10 @@ const css = `
     border-radius:8px; padding:11px 15px; font-size:13px; color:${S.accent}; margin-bottom:14px; }
   .warn { background:rgba(245,196,0,.07); border:1px solid rgba(245,196,0,.25);
     border-radius:8px; padding:11px 15px; font-size:13px; color:${S.gold}; margin-bottom:14px; }
+  .success { background:rgba(34,197,94,.07); border:1px solid rgba(34,197,94,.25);
+    border-radius:8px; padding:11px 15px; font-size:13px; color:${S.green}; margin-bottom:14px; }
+  .error { background:rgba(244,63,94,.07); border:1px solid rgba(244,63,94,.25);
+    border-radius:8px; padding:11px 15px; font-size:13px; color:${S.red}; margin-bottom:14px; }
 
   /* Admin */
   .admin-badge { background:rgba(244,63,94,.15); color:${S.red}; border:1px solid ${S.red};
@@ -173,6 +220,12 @@ const css = `
 
   /* Tab pills */
   .tab-pills { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+
+  /* API panel */
+  .api-panel { background:${S.card}; border:1px solid ${S.border}; border-radius:10px;
+    padding:18px; margin-bottom:20px; }
+  .api-panel-ttl { font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:1px;
+    color:${S.gold}; margin-bottom:10px; }
 `;
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
@@ -189,25 +242,52 @@ export default function App() {
   const [mSearch,    setMSearch]    = useState('');
   const [pSearch,    setPSearch]    = useState('');
   const [saveStatus, setSaveStatus] = useState('');
+  const [apiStatus,  setApiStatus]  = useState('');
+  const [apiDate,    setApiDate]    = useState(new Date().toISOString().split('T')[0]);
+  const [apiLoading, setApiLoading] = useState(false);
 
-  // Load from db on mount
+  // Load from Firestore on mount + subscribe to real-time updates
   useEffect(() => {
-    db.load().then(saved => {
-      if (saved) setState(saved);
+    loadState().then(saved => { if (saved) setState(saved); });
+
+    // Real-time listener on pstats (player stats update most frequently)
+    const unsub = onSnapshot(doc(db, 'league', 'pstats'), snap => {
+      if (snap.exists()) {
+        setState(prev => ({ ...prev, playerStats: snap.data() }));
+      }
     });
-    // Subscribe to real-time updates (no-op in placeholder)
-    const unsub = db.subscribe(remote => setState(remote));
     return unsub;
   }, []);
 
-  // Persist state changes
+  // Persist state changes to Firestore
   const persist = useCallback(async (newState) => {
     setState(newState);
     setSaveStatus('saving…');
-    await db.save(newState);
+    await saveState(newState);
     setSaveStatus('saved ✓');
     setTimeout(() => setSaveStatus(''), 2000);
   }, []);
+
+  // ── API Update handler ─────────────────────────────────────────────────────
+  async function handleApiUpdate() {
+    setApiLoading(true);
+    setApiStatus('');
+    try {
+      const result = await runApiUpdate(apiDate);
+      if (result.updated > 0) {
+        // Reload state from Firestore to reflect new data
+        const fresh = await loadState();
+        setState(fresh);
+        setApiStatus(`✅ ${result.message}`);
+      } else {
+        setApiStatus(`ℹ️ ${result.message}`);
+      }
+    } catch (err) {
+      console.error('[API] Update failed:', err);
+      setApiStatus(`❌ Update failed: ${err.message}`);
+    }
+    setApiLoading(false);
+  }
 
   // ── Computed ───────────────────────────────────────────────────────────────
   const sorted = [...ROSTERS].sort((a, b) =>
@@ -270,7 +350,6 @@ export default function App() {
     });
   }
 
-  const teamById  = id => ALL_TEAMS.find(t => t.id === id);
   const TABS = [
     { id: 'standings', l: 'Standings', ic: '🏆' },
     { id: 'rosters',   l: 'Rosters',   ic: '🗂️' },
@@ -311,6 +390,39 @@ export default function App() {
 
         {/* ── Pages ── */}
         <div className="page">
+
+          {/* ── Admin API Panel (shown on all tabs when admin) ── */}
+          {isAdmin && (
+            <div className="api-panel">
+              <div className="api-panel-ttl">⚡ API-Football Auto-Update</div>
+              <p style={{ fontSize: 12, color: S.muted, marginBottom: 12 }}>
+                Pull today's completed World Cup matches and automatically update scores and player stats.
+              </p>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                <input
+                  type="date"
+                  className="inp"
+                  style={{ width: 160 }}
+                  value={apiDate}
+                  onChange={e => setApiDate(e.target.value)}
+                />
+                <button
+                  className="btn btn-gold"
+                  onClick={handleApiUpdate}
+                  disabled={apiLoading}
+                >
+                  {apiLoading ? '⏳ Fetching…' : '🔄 Fetch & Update'}
+                </button>
+              </div>
+              {apiStatus && (
+                <div style={{ marginTop: 10, fontSize: 13,
+                  color: apiStatus.startsWith('✅') ? S.green : apiStatus.startsWith('❌') ? S.red : S.gold }}>
+                  {apiStatus}
+                </div>
+              )}
+            </div>
+          )}
+
           {tab === 'standings' && (
             <StandingsTab
               sorted={sorted} state={state} isAdmin={isAdmin}
@@ -334,7 +446,6 @@ export default function App() {
               mSearch={mSearch} setMSearch={setMSearch}
               pSearch={pSearch} setPSearch={setPSearch}
               updateScore={updateScore} toggleAdv={toggleAdv} updateStat={updateStat}
-              teamById={teamById}
             />
           )}
           {tab === 'scoring' && <ScoringTab />}
@@ -540,14 +651,13 @@ function RostersTab({ state, isAdmin, teamPts, playerPts, rPts, setTeamName }) {
 function ResultsTab({
   state, isAdmin, resultTab, setResultTab, stageTab, setStageTab,
   mSearch, setMSearch, pSearch, setPSearch,
-  updateScore, toggleAdv, updateStat, teamById,
+  updateScore, toggleAdv, updateStat,
 }) {
   const STAGES = [
     { id: 'ro16', l: 'Round of 16' }, { id: 'qf', l: 'Quarterfinals' },
     { id: 'sf',   l: 'Semifinals' },  { id: 'champion', l: 'Champion' },
   ];
 
-  // Collect all players from all rosters for stats entry
   const allPlayers = ROSTERS.flatMap(r => r.players)
     .filter((p, i, arr) => arr.findIndex(x => x.id === p.id) === i);
 
@@ -675,7 +785,7 @@ function ResultsTab({
                     <div style={{ fontSize: 10, color: S.muted }}>{p.team} · {p.pos}</div>
                   </div>
                 </div>
-                <input className="inp inp-sm" type="number" min="0" value={s.goals}
+<input className="inp inp-sm" type="number" min="0" value={s.goals}
                   onChange={e => isAdmin && updateStat(p.id, 'goals', e.target.value)}
                   readOnly={!isAdmin} />
                 <input className="inp inp-sm" type="number" min="0" value={s.assists}
