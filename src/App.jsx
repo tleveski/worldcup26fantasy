@@ -248,7 +248,7 @@ export default function App() {
   const [apiLoading, setApiLoading] = useState(false);
 
   // Load from Firestore on mount + subscribe to real-time updates
-  useEffect(() => {
+useEffect(() => {
   loadState().then(saved => { if (saved) setState(saved); });
 
   const unsubScores = onSnapshot(doc(db, 'league', 'scores'), snap => {
