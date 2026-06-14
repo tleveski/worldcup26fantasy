@@ -4,7 +4,7 @@ import { calcTeamPoints, calcPlayerPoints, calcRosterPoints } from './utils/scor
 import { db } from './firebase.js';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { runApiUpdate } from './api.js';
-//import { MatchDayLogger } from './MatchDayLogger.jsx';
+import { MatchDayLogger } from './MatchDayLogger.jsx';
 
 // ─── FIRESTORE HELPERS ────────────────────────────────────────────────────────
 const DOCS = {
@@ -15,19 +15,24 @@ const DOCS = {
 };
 
 async function loadState() {
-  const [meta, scores, adv, pstats] = await Promise.all([
-    getDoc(DOCS.meta()),
-    getDoc(DOCS.scores()),
-    getDoc(DOCS.adv()),
-    getDoc(DOCS.pstats()),
-  ]);
-  const init = buildInitialState();
-  return {
-    teamNames:    meta.exists()   ? meta.data()   : init.teamNames,
-    matches:      scores.exists() ? mergeMatches(init.matches, scores.data()) : init.matches,
-    advancements: adv.exists()    ? adv.data()    : {},
-    playerStats:  pstats.exists() ? pstats.data() : {},
-  };
+  try {
+    const [meta, scores, adv, pstats] = await Promise.all([
+      getDoc(DOCS.meta()),
+      getDoc(DOCS.scores()),
+      getDoc(DOCS.adv()),
+      getDoc(DOCS.pstats()),
+    ]);
+    const init = buildInitialState();
+    return {
+      teamNames:    meta.exists()   ? meta.data()   : init.teamNames,
+      matches:      scores.exists() ? mergeMatches(init.matches, scores.data()) : init.matches,
+      advancements: adv.exists()    ? adv.data()    : {},
+      playerStats:  pstats.exists() ? pstats.data() : {},
+    };
+  } catch (err) {
+    console.error('[loadState] failed:', err);
+    return buildInitialState();
+  }
 }
 
 function mergeMatches(initial, saved) {
@@ -35,14 +40,28 @@ function mergeMatches(initial, saved) {
 }
 
 async function saveState(newState) {
-  const matchMap = {};
-  newState.matches.forEach(m => { matchMap[m.id] = { homeScore: m.homeScore, awayScore: m.awayScore, played: m.played }; });
-  await Promise.all([
-    setDoc(DOCS.meta(),   newState.teamNames),
-    setDoc(DOCS.scores(), matchMap),
-    setDoc(DOCS.adv(),    newState.advancements),
-    setDoc(DOCS.pstats(), newState.playerStats),
-  ]);
+  try {
+    const matchMap = {};
+    newState.matches.forEach(m => {
+      matchMap[m.id] = {
+        homeScore: m.homeScore,
+        awayScore: m.awayScore,
+        played:    m.played,
+      };
+    });
+    // Only save plain serializable data — no Firestore objects
+    const teamNames    = JSON.parse(JSON.stringify(newState.teamNames));
+    const advancements = JSON.parse(JSON.stringify(newState.advancements));
+    const playerStats  = JSON.parse(JSON.stringify(newState.playerStats));
+    await Promise.all([
+      setDoc(DOCS.meta(),   teamNames),
+      setDoc(DOCS.scores(), matchMap),
+      setDoc(DOCS.adv(),    advancements),
+      setDoc(DOCS.pstats(), playerStats),
+    ]);
+  } catch (err) {
+    console.error('[saveState] failed:', err);
+  }
 }
 
 // ─── INITIAL STATE ────────────────────────────────────────────────────────────
@@ -248,60 +267,17 @@ export default function App() {
   const [apiLoading, setApiLoading] = useState(false);
 
   // Load from Firestore on mount + subscribe to real-time updates
-useEffect(() => {
-  loadState().then(saved => { if (saved) setState(saved); });
+  useEffect(() => {
+    loadState().then(saved => { if (saved) setState(saved); });
 
-  const unsubScores = onSnapshot(doc(db, 'league', 'scores'), snap => {
-    if (snap.exists()) {
-      setState(prev => ({
-        ...prev,
-        matches: mergeMatches(buildInitialState().matches, snap.data()),
-      }));
-    }
-  });
-  const unsubPstats = onSnapshot(doc(db, 'league', 'pstats'), snap => {
-    if (snap.exists()) {
-      setState(prev => ({ ...prev, playerStats: snap.data() }));
-    }
-  });
-  const unsubMeta = onSnapshot(doc(db, 'league', 'meta'), snap => {
-    if (snap.exists()) {
-      setState(prev => ({ ...prev, teamNames: snap.data() }));
-    }
-  });
-  const unsubAdv = onSnapshot(doc(db, 'league', 'adv'), snap => {
-    if (snap.exists()) {
-      setState(prev => ({ ...prev, advancements: snap.data() }));
-    }
-  });
-  return () => {
-    unsubScores();
-    unsubPstats();
-    unsubMeta();
-    unsubAdv();
-  };
-}, []);
-const unsubPstats  = onSnapshot(doc(db, 'league', 'pstats'), snap => {
-  if (snap.exists()) {
-    setState(prev => ({ ...prev, playerStats: snap.data() }));
-  }
-});
-const unsubMeta    = onSnapshot(doc(db, 'league', 'meta'), snap => {
-  if (snap.exists()) {
-    setState(prev => ({ ...prev, teamNames: snap.data() }));
-  }
-});
-const unsubAdv     = onSnapshot(doc(db, 'league', 'adv'), snap => {
-  if (snap.exists()) {
-    setState(prev => ({ ...prev, advancements: snap.data() }));
-  }
-});
-return () => {
-  unsubScores();
-  unsubPstats();
-  unsubMeta();
-  unsubAdv();
-};
+    // Real-time listener on pstats (player stats update most frequently)
+    const unsub = onSnapshot(doc(db, 'league', 'pstats'), snap => {
+      if (snap.exists()) {
+        setState(prev => ({ ...prev, playerStats: snap.data() }));
+      }
+    });
+    return unsub;
+  }, []);
 
   // Persist state changes to Firestore
   const persist = useCallback(async (newState) => {
@@ -399,7 +375,7 @@ return () => {
     { id: 'rosters',   l: 'Rosters',   ic: '🗂️' },
     { id: 'results',   l: 'Results',   ic: '⚽' },
     { id: 'scoring',   l: 'Scoring',   ic: '📋' },
-  
+    { id: 'logger',    l: 'Logger',    ic: '📝' },
   ];
 
   return (
@@ -494,13 +470,13 @@ return () => {
             />
           )}
           {tab === 'scoring' && <ScoringTab />}
-          {/*tab === 'logger' && (
-  <MatchDayLogger
-    state={state}
-    isAdmin={isAdmin}
-    persist={persist}
-  />
-)}*/}
+          {tab === 'logger' && (
+            <MatchDayLogger
+              state={state}
+              isAdmin={isAdmin}
+              persist={persist}
+            />
+          )}
         </div>
 
         {/* ── Mobile nav ── */}

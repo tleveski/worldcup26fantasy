@@ -24,14 +24,12 @@ export const handler = async (event) => {
 
   try {
     const url = `${BASE_URL}${endpoint}`;
-    console.log(`[Proxy] Fetching: ${url}`);
     const res  = await fetch(url, {
       headers: { 'x-apisports-key': API_KEY },
     });
     const data = await res.json();
     return { statusCode: 200, headers, body: JSON.stringify(data) };
   } catch (err) {
-    console.error('[Proxy] Error:', err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };

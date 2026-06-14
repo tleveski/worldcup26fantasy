@@ -15,7 +15,7 @@ const S = {
   green: '#22c55e', red: '#f43f5e', text: '#dde4f0', muted: '#4d6070',
 };
 
-export function MatchDayLogger({ state, isAdmin, persist }) {
+export function MatchDayLogger({ state, isAdmin, updateScore, updateStat }) {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [homeScore, setHomeScore]         = useState(0);
@@ -60,33 +60,35 @@ export function MatchDayLogger({ state, isAdmin, persist }) {
     setEvents(prev => prev.filter((_, i) => i !== idx));
   }
 
-function handleSave() {
-  if (!selectedMatch || !isAdmin) return;
+  function handleSave() {
+    if (!selectedMatch || !isAdmin) return;
 
-  // Save match score — both fields at once
-  const matches = state.matches.map(m =>
-    m.id === selectedMatch.id
-      ? { ...m, homeScore, awayScore, played: true }
-      : m
-  );
+    // Save match score
+    updateScore(selectedMatch.id, 'homeScore', homeScore);
+    updateScore(selectedMatch.id, 'awayScore', awayScore);
 
-  // Tally goals and assists for fantasy players only
-  const newPlayerStats = { ...state.playerStats };
-  events.forEach(e => {
-    if (!e.playerId) return;
-    if (!newPlayerStats[e.playerId]) newPlayerStats[e.playerId] = { goals: 0, assists: 0, cleanSheets: 0 };
-    if (e.type === 'goal')   newPlayerStats[e.playerId].goals   += 1;
-    if (e.type === 'assist') newPlayerStats[e.playerId].assists += 1;
-  });
+    // Tally goals and assists for fantasy players only
+    const tally = {};
+    events.forEach(e => {
+      if (!e.playerId) return; // non-fantasy player, skip
+      if (!tally[e.playerId]) tally[e.playerId] = { goals: 0, assists: 0 };
+      if (e.type === 'goal')   tally[e.playerId].goals += 1;
+      if (e.type === 'assist') tally[e.playerId].assists += 1;
+    });
 
-  persist({ ...state, matches, playerStats: newPlayerStats });
+    // Get current stats and add
+    Object.entries(tally).forEach(([playerId, delta]) => {
+      const current = state.playerStats[playerId] || { goals: 0, assists: 0, cleanSheets: 0 };
+      if (delta.goals)   updateStat(playerId, 'goals',   current.goals   + delta.goals);
+      if (delta.assists) updateStat(playerId, 'assists', current.assists + delta.assists);
+    });
 
-  setSaved(true);
-  setTimeout(() => {
-    setSelectedMatch(null);
-    setSaved(false);
-  }, 1500);
-}
+    setSaved(true);
+    setTimeout(() => {
+      setSelectedMatch(null);
+      setSaved(false);
+    }, 1500);
+  }
 
   const homeTeam = selectedMatch ? ALL_TEAMS.find(t => t.id === selectedMatch.home) : null;
   const awayTeam = selectedMatch ? ALL_TEAMS.find(t => t.id === selectedMatch.away) : null;

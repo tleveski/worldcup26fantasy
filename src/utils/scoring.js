@@ -9,7 +9,7 @@ export function calcTeamPoints(teamId, matches, advancements) {
     if (!isHome && !isAway) return;
     const mine   = isHome ? m.homeScore : m.awayScore;
     const theirs = isHome ? m.awayScore : m.homeScore;
-    if (mine > theirs)      pts += SCORING.team.win;
+    if (mine > theirs)        pts += SCORING.team.win;
     else if (mine === theirs) pts += SCORING.team.draw;
   });
   const adv = advancements[teamId] || {};

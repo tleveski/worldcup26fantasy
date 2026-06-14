@@ -1,15 +1,13 @@
 // ─── API-FOOTBALL INTEGRATION ─────────────────────────────────────────────────
-// Uses api-football.com directly (not RapidAPI)
+// Calls Netlify serverless function to avoid CORS issues
 // Free tier: 100 calls/day
-// Call runApiUpdate() from your admin panel or on a schedule
+// Call runApiUpdate() from the admin panel
 
 import { db } from './firebase.js';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const API_KEY    = import.meta.env.VITE_API_FOOTBALL_KEY;
-const BASE_URL   = 'https://v3.football.api-sports.io';
-const WC_LEAGUE  = 1;
-const WC_SEASON  = 2026;
+const WC_LEAGUE = 1;
+const WC_SEASON = 2026;
 
 // ── Player name → our player ID ───────────────────────────────────────────────
 const PLAYER_NAME_MAP = {
@@ -71,7 +69,7 @@ const TEAM_NAME_MAP = {
   'Uzbekistan':'UZB','Curacao':'CUW','Curaçao':'CUW',
 };
 
-// ── Fetch helper ──────────────────────────────────────────────────────────────
+// ── Fetch via Netlify proxy ───────────────────────────────────────────────────
 async function apiFetch(endpoint) {
   try {
     const res  = await fetch(`/.netlify/functions/api-football?endpoint=${encodeURIComponent(endpoint)}`);
@@ -168,13 +166,11 @@ export async function runApiUpdate(date) {
     goals.forEach(id => {
       if (!playerStats[id]) playerStats[id] = { goals: 0, assists: 0, cleanSheets: 0 };
       playerStats[id].goals += 1;
-      console.log(`[API] Goal → ${id} (total: ${playerStats[id].goals})`);
     });
 
     assists.forEach(id => {
       if (!playerStats[id]) playerStats[id] = { goals: 0, assists: 0, cleanSheets: 0 };
       playerStats[id].assists += 1;
-      console.log(`[API] Assist → ${id} (total: ${playerStats[id].assists})`);
     });
 
     updatedCount++;

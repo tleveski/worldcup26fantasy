@@ -1,81 +1,72 @@
-// ─── 13 CONFIRMED ROSTERS (from draft lottery sheet, slot order) ─────────────
-// Each slot: 3 national teams + 3 offensive players
-// Draft spot = original snake draft position
-
+// ─── 13 CONFIRMED ROSTERS ────────────────────────────────────────────────────
 export const ROSTERS = [
   {
-    slot: 1,
-    draftSpot: 5,
+    slot: 1, draftSpot: 5,
     teams: [
       { id: "POR", name: "Portugal",     flag: "🇵🇹", group: "K" },
       { id: "JPN", name: "Japan",        flag: "🇯🇵", group: "F" },
       { id: "GHA", name: "Ghana",        flag: "🇬🇭", group: "L" },
     ],
     players: [
-      { id: "messi",    name: "Lionel Messi",      flag: "🇦🇷", team: "Argentina", pos: "MID" },
-      { id: "doku",     name: "Jérémy Doku",       flag: "🇧🇪", team: "Belgium",   pos: "MID" },
-      { id: "davies",   name: "Alphonso Davies",   flag: "🇨🇦", team: "Canada",    pos: "MID" },
+      { id: "messi",  name: "Lionel Messi",    flag: "🇦🇷", team: "Argentina", pos: "MID" },
+      { id: "doku",   name: "Jérémy Doku",     flag: "🇧🇪", team: "Belgium",   pos: "MID" },
+      { id: "davies", name: "Alphonso Davies", flag: "🇨🇦", team: "Canada",    pos: "MID" },
     ],
   },
   {
-    slot: 2,
-    draftSpot: 11,
+    slot: 2, draftSpot: 11,
     teams: [
-      { id: "COL", name: "Colombia",    flag: "🇨🇴", group: "K" },
-      { id: "CIV", name: "Ivory Coast", flag: "🇨🇮", group: "E" },
-      { id: "RSA", name: "South Africa",flag: "🇿🇦", group: "A" },
+      { id: "COL", name: "Colombia",     flag: "🇨🇴", group: "K" },
+      { id: "CIV", name: "Ivory Coast",  flag: "🇨🇮", group: "E" },
+      { id: "RSA", name: "South Africa", flag: "🇿🇦", group: "A" },
     ],
     players: [
-      { id: "haaland",  name: "Erling Haaland",      flag: "🇳🇴", team: "Norway",    pos: "FWD" },
-      { id: "lautaro",  name: "Lautaro Martínez",    flag: "🇦🇷", team: "Argentina", pos: "FWD" },
-      { id: "ferran",   name: "Ferran Torres",       flag: "🇪🇸", team: "Spain",     pos: "FWD" },
+      { id: "haaland", name: "Erling Haaland",   flag: "🇳🇴", team: "Norway",    pos: "FWD" },
+      { id: "lautaro", name: "Lautaro Martínez", flag: "🇦🇷", team: "Argentina", pos: "FWD" },
+      { id: "ferran",  name: "Ferran Torres",    flag: "🇪🇸", team: "Spain",     pos: "FWD" },
     ],
   },
   {
-    slot: 3,
-    draftSpot: 1,
+    slot: 3, draftSpot: 1,
     teams: [
       { id: "ESP", name: "Spain",         flag: "🇪🇸", group: "H" },
       { id: "USA", name: "United States", flag: "🇺🇸", group: "D" },
       { id: "SCO", name: "Scotland",      flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", group: "C" },
     ],
     players: [
-      { id: "pedri",     name: "Pedri",          flag: "🇪🇸", team: "Spain",  pos: "MID" },
-      { id: "doue",      name: "Désiré Doué",    flag: "🇫🇷", team: "France", pos: "MID" },
-      { id: "coman",     name: "Kingsley Coman", flag: "🇫🇷", team: "France", pos: "MID" },
+      { id: "pedri", name: "Pedri",          flag: "🇪🇸", team: "Spain",  pos: "MID" },
+      { id: "doue",  name: "Désiré Doué",    flag: "🇫🇷", team: "France", pos: "MID" },
+      { id: "coman", name: "Kingsley Coman", flag: "🇫🇷", team: "France", pos: "MID" },
     ],
   },
   {
-    slot: 4,
-    draftSpot: 6,
+    slot: 4, draftSpot: 6,
     teams: [
       { id: "BRA", name: "Brazil",  flag: "🇧🇷", group: "C" },
       { id: "AUT", name: "Austria", flag: "🇦🇹", group: "J" },
       { id: "QAT", name: "Qatar",   flag: "🇶🇦", group: "B" },
     ],
     players: [
-      { id: "saka",   name: "Bukayo Saka",    flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England", pos: "MID" },
-      { id: "cherki", name: "Rayan Cherki",   flag: "🇫🇷", team: "France",  pos: "MID" },
-      { id: "cucho",  name: "Cucho Hernández",flag: "🇨🇴", team: "Colombia",pos: "FWD" },
+      { id: "saka",   name: "Bukayo Saka",     flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",  pos: "MID" },
+      { id: "cherki", name: "Rayan Cherki",    flag: "🇫🇷", team: "France",   pos: "MID" },
+      { id: "cucho",  name: "Cucho Hernández", flag: "🇨🇴", team: "Colombia", pos: "FWD" },
     ],
   },
   {
-    slot: 5,
-    draftSpot: 10,
+    slot: 5, draftSpot: 10,
     teams: [
       { id: "URU", name: "Uruguay",  flag: "🇺🇾", group: "H" },
       { id: "TUR", name: "Türkiye",  flag: "🇹🇷", group: "D" },
       { id: "PAR", name: "Paraguay", flag: "🇵🇾", group: "D" },
     ],
     players: [
-      { id: "yamal",    name: "Lamine Yamal",   flag: "🇪🇸", team: "Spain",  pos: "MID" },
-      { id: "odegaard", name: "Martin Ødegaard",flag: "🇳🇴", team: "Norway", pos: "MID" },
-      { id: "balogun",  name: "Folarin Balogun", flag: "🇺🇸", team: "USA",   pos: "FWD" },
+      { id: "yamal",    name: "Lamine Yamal",    flag: "🇪🇸", team: "Spain",  pos: "MID" },
+      { id: "odegaard", name: "Martin Ødegaard", flag: "🇳🇴", team: "Norway", pos: "MID" },
+      { id: "balogun",  name: "Folarin Balogun", flag: "🇺🇸", team: "USA",    pos: "FWD" },
     ],
   },
   {
-    slot: 6,
-    draftSpot: 4,
+    slot: 6, draftSpot: 4,
     teams: [
       { id: "ENG", name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "L" },
       { id: "SEN", name: "Senegal", flag: "🇸🇳", group: "I" },
@@ -88,8 +79,7 @@ export const ROSTERS = [
     ],
   },
   {
-    slot: 7,
-    draftSpot: 9,
+    slot: 7, draftSpot: 9,
     teams: [
       { id: "BEL", name: "Belgium",     flag: "🇧🇪", group: "G" },
       { id: "KOR", name: "South Korea", flag: "🇰🇷", group: "A" },
@@ -102,22 +92,20 @@ export const ROSTERS = [
     ],
   },
   {
-    slot: 8,
-    draftSpot: 12,
+    slot: 8, draftSpot: 12,
     teams: [
-      { id: "NOR", name: "Norway",           flag: "🇳🇴", group: "I" },
-      { id: "ALG", name: "Algeria",          flag: "🇩🇿", group: "J" },
-      { id: "BIH", name: "Bosnia & Herz.",   flag: "🇧🇦", group: "B" },
+      { id: "NOR", name: "Norway",         flag: "🇳🇴", group: "I" },
+      { id: "ALG", name: "Algeria",        flag: "🇩🇿", group: "J" },
+      { id: "BIH", name: "Bosnia & Herz.", flag: "🇧🇦", group: "B" },
     ],
     players: [
-      { id: "kane",    name: "Harry Kane",  flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",  pos: "FWD" },
-      { id: "luisdiaz",name: "Luis Díaz",   flag: "🇨🇴", team: "Colombia", pos: "MID" },
-      { id: "endrick", name: "Endrick",     flag: "🇧🇷", team: "Brazil",   pos: "FWD" },
+      { id: "kane",     name: "Harry Kane", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",  pos: "FWD" },
+      { id: "luisdiaz", name: "Luis Díaz",  flag: "🇨🇴", team: "Colombia", pos: "MID" },
+      { id: "endrick",  name: "Endrick",    flag: "🇧🇷", team: "Brazil",   pos: "FWD" },
     ],
   },
   {
-    slot: 9,
-    draftSpot: 3,
+    slot: 9, draftSpot: 3,
     teams: [
       { id: "ARG", name: "Argentina", flag: "🇦🇷", group: "J" },
       { id: "MAR", name: "Morocco",   flag: "🇲🇦", group: "C" },
@@ -130,22 +118,20 @@ export const ROSTERS = [
     ],
   },
   {
-    slot: 10,
-    draftSpot: 8,
+    slot: 10, draftSpot: 8,
     teams: [
       { id: "NED", name: "Netherlands", flag: "🇳🇱", group: "F" },
       { id: "ECU", name: "Ecuador",     flag: "🇪🇨", group: "E" },
       { id: "AUS", name: "Australia",   flag: "🇦🇺", group: "D" },
     ],
     players: [
-      { id: "vinicius",  name: "Vinícius Júnior",  flag: "🇧🇷", team: "Brazil",  pos: "FWD" },
-      { id: "olise",     name: "Michael Olise",    flag: "🇫🇷", team: "France",  pos: "MID" },
-      { id: "valverde",  name: "Federico Valverde",flag: "🇺🇾", team: "Uruguay", pos: "MID" },
+      { id: "vinicius", name: "Vinícius Júnior",   flag: "🇧🇷", team: "Brazil",  pos: "FWD" },
+      { id: "olise",    name: "Michael Olise",     flag: "🇫🇷", team: "France",  pos: "MID" },
+      { id: "valverde", name: "Federico Valverde", flag: "🇺🇾", team: "Uruguay", pos: "MID" },
     ],
   },
   {
-    slot: 11,
-    draftSpot: 7,
+    slot: 11, draftSpot: 7,
     teams: [
       { id: "GER", name: "Germany",     flag: "🇩🇪", group: "E" },
       { id: "SUI", name: "Switzerland", flag: "🇨🇭", group: "B" },
@@ -158,36 +144,33 @@ export const ROSTERS = [
     ],
   },
   {
-    slot: 12,
-    draftSpot: 13,
+    slot: 12, draftSpot: 13,
     teams: [
       { id: "CRO", name: "Croatia",     flag: "🇭🇷", group: "L" },
       { id: "IRN", name: "Iran",        flag: "🇮🇷", group: "G" },
       { id: "NZL", name: "New Zealand", flag: "🇳🇿", group: "G" },
     ],
     players: [
-      { id: "mbappe",  name: "Kylian Mbappé", flag: "🇫🇷", team: "France", pos: "FWD" },
-      { id: "neymar",  name: "Neymar Jr.",    flag: "🇧🇷", team: "Brazil", pos: "FWD" },
-      { id: "eze",     name: "Eberechi Eze",  flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England",pos: "MID" },
+      { id: "mbappe", name: "Kylian Mbappé", flag: "🇫🇷", team: "France",  pos: "FWD" },
+      { id: "neymar", name: "Neymar Jr.",    flag: "🇧🇷", team: "Brazil",  pos: "FWD" },
+      { id: "eze",    name: "Eberechi Eze", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", team: "England", pos: "MID" },
     ],
   },
   {
-    slot: 13,
-    draftSpot: 2,
+    slot: 13, draftSpot: 2,
     teams: [
       { id: "FRA", name: "France", flag: "🇫🇷", group: "I" },
       { id: "MEX", name: "Mexico", flag: "🇲🇽", group: "A" },
       { id: "EGY", name: "Egypt",  flag: "🇪🇬", group: "G" },
     ],
     players: [
-      { id: "wirtz",   name: "Florian Wirtz",    flag: "🇩🇪", team: "Germany",       pos: "MID" },
+      { id: "wirtz",   name: "Florian Wirtz",     flag: "🇩🇪", team: "Germany",       pos: "MID" },
       { id: "pulisic", name: "Christian Pulisic", flag: "🇺🇸", team: "United States", pos: "MID" },
       { id: "mane",    name: "Sadio Mané",        flag: "🇸🇳", team: "Senegal",       pos: "FWD" },
     ],
   },
 ];
 
-// All 48 WC teams for results entry
 export const ALL_TEAMS = [
   { id:"FRA",name:"France",flag:"🇫🇷",group:"I"},{ id:"ESP",name:"Spain",flag:"🇪🇸",group:"H"},
   { id:"ARG",name:"Argentina",flag:"🇦🇷",group:"J"},{ id:"ENG",name:"England",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",group:"L"},
@@ -215,7 +198,6 @@ export const ALL_TEAMS = [
   { id:"UZB",name:"Uzbekistan",flag:"🇺🇿",group:"K"},{ id:"CUW",name:"Curaçao",flag:"🇨🇼",group:"E"},
 ];
 
-// Full 72-match group stage schedule
 export const GROUP_STAGE = [
   {id:"g1",group:"A",home:"MEX",away:"RSA",date:"Jun 11",time:"3pm ET"},
   {id:"g2",group:"A",home:"KOR",away:"CZE",date:"Jun 11",time:"10pm ET"},
@@ -291,11 +273,9 @@ export const GROUP_STAGE = [
   {id:"g72",group:"J",home:"JOR",away:"ARG",date:"Jun 27",time:"10pm ET"},
 ];
 
-// Scoring rules
 export const SCORING = {
   team:   { win: 3, draw: 1, ro16: 1, qf: 1, sf: 2, champion: 3 },
   player: { goal: 5, assist: 3, cleanSheet: 3 },
 };
 
-// Admin password — change this before deploying
 export const ADMIN_PASSWORD = "wc26admin";
