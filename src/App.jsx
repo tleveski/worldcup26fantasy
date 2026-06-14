@@ -252,13 +252,35 @@ export default function App() {
     loadState().then(saved => { if (saved) setState(saved); });
 
     // Real-time listener on pstats (player stats update most frequently)
-    const unsub = onSnapshot(doc(db, 'league', 'pstats'), snap => {
-      if (snap.exists()) {
-        setState(prev => ({ ...prev, playerStats: snap.data() }));
-      }
-    });
-    return unsub;
-  }, []);
+    const unsubScores  = onSnapshot(doc(db, 'league', 'scores'), snap => {
+  if (snap.exists()) {
+    setState(prev => ({
+      ...prev,
+      matches: mergeMatches(buildInitialState().matches, snap.data()),
+    }));
+  }
+});
+const unsubPstats  = onSnapshot(doc(db, 'league', 'pstats'), snap => {
+  if (snap.exists()) {
+    setState(prev => ({ ...prev, playerStats: snap.data() }));
+  }
+});
+const unsubMeta    = onSnapshot(doc(db, 'league', 'meta'), snap => {
+  if (snap.exists()) {
+    setState(prev => ({ ...prev, teamNames: snap.data() }));
+  }
+});
+const unsubAdv     = onSnapshot(doc(db, 'league', 'adv'), snap => {
+  if (snap.exists()) {
+    setState(prev => ({ ...prev, advancements: snap.data() }));
+  }
+});
+return () => {
+  unsubScores();
+  unsubPstats();
+  unsubMeta();
+  unsubAdv();
+};
 
   // Persist state changes to Firestore
   const persist = useCallback(async (newState) => {
