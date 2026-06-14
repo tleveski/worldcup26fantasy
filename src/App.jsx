@@ -262,7 +262,6 @@ export default function App() {
   const [pSearch,    setPSearch]    = useState('');
   const [saveStatus, setSaveStatus] = useState('');
 
-
   // Load from Firestore on mount + subscribe to real-time updates
   useEffect(() => {
     loadState().then(saved => { if (saved) setState(saved); });
@@ -285,7 +284,6 @@ export default function App() {
     setTimeout(() => setSaveStatus(''), 2000);
   }, []);
 
-  // ── API Update handler ─────────────────────────────────────────────────────
 
 
   // ── Computed ───────────────────────────────────────────────────────────────
@@ -391,7 +389,7 @@ export default function App() {
         {/* ── Pages ── */}
         <div className="page">
 
-         
+
 
           {tab === 'standings' && (
             <StandingsTab
