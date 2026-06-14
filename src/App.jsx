@@ -249,17 +249,38 @@ export default function App() {
 
   // Load from Firestore on mount + subscribe to real-time updates
   useEffect(() => {
-    loadState().then(saved => { if (saved) setState(saved); });
+  loadState().then(saved => { if (saved) setState(saved); });
 
-    // Real-time listener on pstats (player stats update most frequently)
-    const unsubScores  = onSnapshot(doc(db, 'league', 'scores'), snap => {
-  if (snap.exists()) {
-    setState(prev => ({
-      ...prev,
-      matches: mergeMatches(buildInitialState().matches, snap.data()),
-    }));
-  }
-});
+  const unsubScores = onSnapshot(doc(db, 'league', 'scores'), snap => {
+    if (snap.exists()) {
+      setState(prev => ({
+        ...prev,
+        matches: mergeMatches(buildInitialState().matches, snap.data()),
+      }));
+    }
+  });
+  const unsubPstats = onSnapshot(doc(db, 'league', 'pstats'), snap => {
+    if (snap.exists()) {
+      setState(prev => ({ ...prev, playerStats: snap.data() }));
+    }
+  });
+  const unsubMeta = onSnapshot(doc(db, 'league', 'meta'), snap => {
+    if (snap.exists()) {
+      setState(prev => ({ ...prev, teamNames: snap.data() }));
+    }
+  });
+  const unsubAdv = onSnapshot(doc(db, 'league', 'adv'), snap => {
+    if (snap.exists()) {
+      setState(prev => ({ ...prev, advancements: snap.data() }));
+    }
+  });
+  return () => {
+    unsubScores();
+    unsubPstats();
+    unsubMeta();
+    unsubAdv();
+  };
+}, []);
 const unsubPstats  = onSnapshot(doc(db, 'league', 'pstats'), snap => {
   if (snap.exists()) {
     setState(prev => ({ ...prev, playerStats: snap.data() }));
