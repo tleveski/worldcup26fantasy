@@ -455,8 +455,7 @@ export default function App() {
   <MatchDayLogger
     state={state}
     isAdmin={isAdmin}
-    updateScore={updateScore}
-    updateStat={updateStat}
+    persist={persist}
   />
 )}
         </div>
