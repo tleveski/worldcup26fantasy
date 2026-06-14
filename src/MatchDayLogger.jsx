@@ -15,7 +15,7 @@ const S = {
   green: '#22c55e', red: '#f43f5e', text: '#dde4f0', muted: '#4d6070',
 };
 
-export function MatchDayLogger({ state, isAdmin, updateScore, updateStat }) {
+export function MatchDayLogger({ state, isAdmin, persist }) {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [homeScore, setHomeScore]         = useState(0);
