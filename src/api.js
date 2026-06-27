@@ -11,6 +11,8 @@ const WC_SEASON = 2026;
 
 // ── Player name → our player ID ───────────────────────────────────────────────
 const PLAYER_NAME_MAP = {
+  'Ousmane Dembélé':'dembele','Ousmane Dembele':'dembele','O. Dembélé':'dembele',
+'Mohamed Salah':'salah','M. Salah':'salah',
   'Lionel Messi':'messi','L. Messi':'messi',
   'Jérémy Doku':'doku','Jeremy Doku':'doku','J. Doku':'doku',
   'Alphonso Davies':'davies','A. Davies':'davies',
