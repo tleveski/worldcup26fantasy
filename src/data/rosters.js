@@ -36,7 +36,7 @@ export const ROSTERS = [
     players: [
       { id: "pedri", name: "Pedri",          flag: "🇪🇸", team: "Spain",  pos: "MID" },
       { id: "doue",  name: "Désiré Doué",    flag: "🇫🇷", team: "France", pos: "MID" },
-      { id: "coman", name: "Kingsley Coman", flag: "🇫🇷", team: "France", pos: "MID" },
+      { id: "salah", name: "Mohamed Salah", flag: "🇪🇬", team: "Egypt", pos: "MID" },
     ],
   },
   {
@@ -114,7 +114,7 @@ export const ROSTERS = [
     players: [
       { id: "raphinha", name: "Raphinha",        flag: "🇧🇷", team: "Brazil",  pos: "MID" },
       { id: "semenyo",  name: "Antoine Semenyo", flag: "🇬🇭", team: "Ghana",   pos: "MID" },
-      { id: "abde",     name: "Abde Ezzalzouli", flag: "🇲🇦", team: "Morocco", pos: "MID" },
+      { id: "dembele", name: "Ousmane Dembélé", flag: "🇫🇷", team: "France", pos: "MID" },
     ],
   },
   {
