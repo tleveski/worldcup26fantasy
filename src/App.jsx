@@ -68,7 +68,9 @@ async function saveState(newState) {
 function buildInitialState() {
   return {
     teamNames:    Object.fromEntries(ROSTERS.map(r => [r.slot, `Slot ${r.slot}`])),
-    matches:      GROUP_STAGE.map(m => ({ ...m, homeId: m.home, awayId: m.away, homeScore: 0, awayScore: 0, played: false })),
+    matches:      [...GROUP_STAGE, ...KNOCKOUT_STAGE].map(m => ({ 
+      ...m, homeId: m.home, awayId: m.away, homeScore: 0, awayScore: 0, played: false 
+    })),
     advancements: {},
     playerStats:  {},
   };
