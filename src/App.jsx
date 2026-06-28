@@ -1,6 +1,5 @@
 import { ROSTERS, ALL_TEAMS, GROUP_STAGE, KNOCKOUT_STAGE, SCORING, ADMIN_PASSWORD } from './data/rosters.js';
 import { useState, useEffect, useCallback } from 'react';
-import { ROSTERS, ALL_TEAMS, GROUP_STAGE, SCORING, ADMIN_PASSWORD } from './data/rosters.js';
 import { calcTeamPoints, calcPlayerPoints, calcRosterPoints } from './utils/scoring.js';
 import { db } from './firebase.js';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
