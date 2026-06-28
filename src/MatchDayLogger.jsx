@@ -32,7 +32,7 @@ export function MatchDayLogger({ state, isAdmin, persist }) {
     return new Date(2026, months[mon], parseInt(day)).toISOString().split('T')[0];
   }
 
-  const todayMatches = GROUP_STAGE.filter(m => matchDate(m) === selectedDate);
+  const todayMatches = state.matches.filter(m => matchDate(m) === selectedDate);
 
   function openMatch(match) {
     const existing = state.matches.find(m => m.id === match.id);
