@@ -652,6 +652,7 @@ function ResultsTab({
   );
 
   const groups = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+  const knockoutRounds = ['R32', 'R16', 'QF', 'SF', 'Final'];
 
   return (
     <div>
@@ -678,6 +679,42 @@ function ResultsTab({
         <div>
           <input className="inp" placeholder="Search by team or group…" value={mSearch}
             onChange={e => setMSearch(e.target.value)} style={{ marginBottom: 14 }} />
+          
+          {knockoutRounds.map(round => {
+  const rms = filteredMatches.filter(m => m.round === round);
+  if (!rms.length) return null;
+  const labels = { R32:'Round of 32', R16:'Round of 16', QF:'Quarterfinals', SF:'Semifinals', Final:'Final' };
+  return (
+    <div key={round}>
+      <div className="grp-lbl">{labels[round]}</div>
+      {rms.map(m => {
+        const H = ALL_TEAMS.find(t => t.id === m.homeId);
+        const A = ALL_TEAMS.find(t => t.id === m.awayId);
+        return (
+          <div key={m.id} className="match-row">
+            <div className="m-team">
+              <span style={{ fontSize: 18 }}>{H?.flag}</span>
+              <span>{H?.name}</span>
+            </div>
+            <div className="m-score">
+              <input className="inp inp-sm" type="number" min="0" value={m.homeScore}
+                onChange={e => isAdmin && updateScore(m.id, 'homeScore', e.target.value)}
+                readOnly={!isAdmin} />
+              <span style={{ color: S.muted }}>–</span>
+              <input className="inp inp-sm" type="number" min="0" value={m.awayScore}
+                onChange={e => isAdmin && updateScore(m.id, 'awayScore', e.target.value)}
+                readOnly={!isAdmin} />
+            </div>
+            <div className="m-team away">
+              <span style={{ fontSize: 18 }}>{A?.flag}</span>
+              <span>{A?.name}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+})}
           {groups.map(grp => {
             const gms = filteredMatches.filter(m => m.group === grp);
             if (!gms.length) return null;
