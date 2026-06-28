@@ -272,7 +272,25 @@ export const GROUP_STAGE = [
   {id:"g71",group:"J",home:"ALG",away:"AUT",date:"Jun 27",time:"10pm ET"},
   {id:"g72",group:"J",home:"JOR",away:"ARG",date:"Jun 27",time:"10pm ET"},
 ];
-
+export const KNOCKOUT_STAGE = [
+  // ── Round of 32 ───────────────────────────────────────────────────────────
+  {id:"r32_1", round:"R32", home:"RSA", away:"CAN", date:"Jun 28", time:"3pm ET"},
+  {id:"r32_2", round:"R32", home:"BRA", away:"JPN", date:"Jun 29", time:"1pm ET"},
+  {id:"r32_3", round:"R32", home:"GER", away:"PAR", date:"Jun 29", time:"4:30pm ET"},
+  {id:"r32_4", round:"R32", home:"NED", away:"MAR", date:"Jun 29", time:"9pm ET"},
+  {id:"r32_5", round:"R32", home:"CIV", away:"NOR", date:"Jun 30", time:"1pm ET"},
+  {id:"r32_6", round:"R32", home:"FRA", away:"SWE", date:"Jun 30", time:"5pm ET"},
+  {id:"r32_7", round:"R32", home:"MEX", away:"ECU", date:"Jun 30", time:"9pm ET"},
+  {id:"r32_8", round:"R32", home:"ENG", away:"DRC", date:"Jul 1",  time:"12pm ET"},
+  {id:"r32_9", round:"R32", home:"BEL", away:"SEN", date:"Jul 1",  time:"4pm ET"},
+  {id:"r32_10",round:"R32", home:"USA", away:"BIH", date:"Jul 1",  time:"8pm ET"},
+  {id:"r32_11",round:"R32", home:"ESP", away:"AUT", date:"Jul 2",  time:"3pm ET"},
+  {id:"r32_12",round:"R32", home:"POR", away:"CRO", date:"Jul 2",  time:"7pm ET"},
+  {id:"r32_13",round:"R32", home:"SUI", away:"ALG", date:"Jul 3",  time:"12pm ET"},
+  {id:"r32_14",round:"R32", home:"ARG", away:"CPV", date:"Jul 3",  time:"4pm ET"},
+  {id:"r32_15",round:"R32", home:"COL", away:"GHA", date:"Jul 3",  time:"8pm ET"},
+  {id:"r32_16",round:"R32", home:"AUS", away:"EGY", date:"Jul 3",  time:"8pm ET"},
+];
 export const SCORING = {
   team:   { win: 3, draw: 1, ro16: 1, qf: 1, sf: 2, champion: 3 },
   player: { goal: 5, assist: 3, cleanSheet: 3 },
